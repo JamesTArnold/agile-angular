@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "agile-angular": {
+      "hosting": {
+        "agile-angular": [
+          "agile-angular"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "agile-angular"
+  }
+}
