@@ -1,32 +1,24 @@
-import { Component } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
-import firebase from 'firebase/compat/app';
+import { Component, OnInit } from '@angular/core';
+import { UserService } from './user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.sass']
+  styleUrls: ['./app.component.sass'],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'agile-angular';
-  constructor(public auth: AngularFireAuth) {
-  }
-   login() {
-    this.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
-  }
-  logout() {
-    this.auth.signOut();
-  }
-  anonLogin() {
-    firebase.auth().signInAnonymously().catch(function(error) {
-      // Handle Errors here.
-      var errorCode = error.code;
-      var errorMessage = error.message;
+  isUserLoggedIn: boolean = false;
 
-      if (errorCode === 'auth/operation-not-allowed') {
-        alert('You must enable Anonymous auth in the Firebase Console.');
+  constructor(public userService: UserService) {}
+
+  ngOnInit(): void {
+    this.userService.getUser().subscribe((user) => {
+      if(user) {
+        this.isUserLoggedIn = true;
       } else {
-        console.error(error);
+
       }
     });
   }
