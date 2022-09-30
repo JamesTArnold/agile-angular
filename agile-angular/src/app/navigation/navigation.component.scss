@@ -1,7 +1,10 @@
-.spacer {
-  flex: 1 1 auto;
-}
+
 
 .icon {
   padding-right: 12px;
+}
+
+.toolbar {
+  position: relative;
+  z-index: 2;
 }

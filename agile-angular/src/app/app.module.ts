@@ -10,6 +10,8 @@ import { FIREBASE_OPTIONS } from '@angular/fire/compat';
 
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatIconModule} from '@angular/material/icon';
+import {MatCardModule} from '@angular/material/card';
+import {MatButtonModule} from '@angular/material/button';
 
 import { provideFirestore,getFirestore } from '@angular/fire/firestore';
 import { HomeComponent } from './home/home.component';
@@ -35,7 +37,8 @@ import { NavigationComponent } from './navigation/navigation.component';
     BrowserAnimationsModule,
     MatToolbarModule,
     MatIconModule,
-
+    MatCardModule,
+    MatButtonModule,
 
 
   ],

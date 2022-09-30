@@ -1,0 +1,13 @@
+
+.grid-container {
+  padding: 25px;
+  display: grid;
+  grid:  auto-flow / 200px;
+  gap: 20px;
+}
+
+.create-card {
+  display: grid;
+  align-content: center;
+  justify-content: center;
+}
