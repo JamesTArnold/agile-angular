@@ -1,8 +1,8 @@
 
 .grid-container {
-  padding: 25px;
+
   display: grid;
-  grid:  auto-flow / 200px;
+  grid:  auto-flow / auto;
   gap: 20px;
 }
 
