@@ -22,6 +22,7 @@ import { ProjectsComponent } from './projects/projects.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NavigationComponent } from './navigation/navigation.component';
+import { ProjectFormComponent } from './projects/project-form/project-form.component';
 
 
 
@@ -30,7 +31,8 @@ import { NavigationComponent } from './navigation/navigation.component';
     AppComponent,
     ProjectsComponent,
     LandingPageComponent,
-    NavigationComponent
+    NavigationComponent,
+    ProjectFormComponent
   ],
   imports: [
     BrowserModule,
