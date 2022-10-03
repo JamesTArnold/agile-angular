@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../user.service';
 import { FirestoreService } from '../firestore.service';
-import { Project} from '../project.interface';
+import { Project, BoardType} from '../project.interface';
 import {
   MatDialog,
   MatDialogRef,
@@ -19,8 +19,7 @@ import { ProjectFormComponent } from './project-form/project-form.component';
 export class ProjectsComponent implements OnInit {
   project: Project = {
     name: '',
-    id: '',
-    boardType: '',
+    boardType: BoardType.KANBAN,
   }
 
   constructor(
@@ -34,12 +33,13 @@ export class ProjectsComponent implements OnInit {
   addProject() {
       const dialogRef = this.dialog.open(ProjectFormComponent, {
         width: '250px',
+        disableClose: true,
       });
       dialogRef.afterClosed().subscribe(result => {
+        if (result !== undefined ) {
         this.project = result;
-        console.log("🚀 ~ file: projects.component.ts ~ line 40 ~ ProjectsComponent ~ dialogRef.afterClosed ~ project", this.project)
-
+        this.firestoreService.addProject(this.project);
+        }
       });
-    // this.firestoreService.addProject(this.project);
   }
 }

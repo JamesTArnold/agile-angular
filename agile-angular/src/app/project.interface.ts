@@ -1,5 +1,10 @@
+
 export interface Project {
   name: string;
-  id: string;
-  boardType: string;
+  boardType: BoardType;
+}
+
+export enum BoardType {
+  KANBAN = 'KANBAN',
+  SCRUM = 'SCRUM',
 }

@@ -1,1 +1,20 @@
-<p>project-form works!</p>
+<h2 mat-dialog-title>Create a new project</h2>
+<form [formGroup]="projectForm">
+<mat-dialog-content>
+    <mat-form-field>
+      <mat-label for="name">Project Name</mat-label>
+      <input id="name" matInput aria-label="name" minlength="4"  formControlName="name" />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Project Type</mat-label>
+      <mat-select id="mat-option" matInput placeholder="Name" formControlName="boardType">
+        <mat-option value="'SCRUM'">SCRUM</mat-option>
+        <mat-option value="'KANBAN'">KANBAN</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button  mat-button type="button" (click)="onCancel()">CANCEL</button>
+    <button mat-raised-button type="button" color="accent" (click)="onSubmit()" [disabled]="!projectForm.valid">SUBMIT</button>
+  </mat-dialog-actions>
+</form>
