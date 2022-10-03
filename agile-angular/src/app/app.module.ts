@@ -15,9 +15,10 @@ import {MatCardModule} from '@angular/material/card';
 import {MatButtonModule} from '@angular/material/button';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatListModule} from '@angular/material/list';
+import {MatDialogModule} from '@angular/material/dialog';
 
 
-import { HomeComponent } from './home/home.component';
+import { ProjectsComponent } from './projects/projects.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NavigationComponent } from './navigation/navigation.component';
@@ -27,7 +28,7 @@ import { NavigationComponent } from './navigation/navigation.component';
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
+    ProjectsComponent,
     LandingPageComponent,
     NavigationComponent
   ],
@@ -44,6 +45,7 @@ import { NavigationComponent } from './navigation/navigation.component';
     MatButtonModule,
     MatMenuModule,
     MatListModule,
+    MatDialogModule,
 
 
   ],

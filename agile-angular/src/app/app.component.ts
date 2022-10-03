@@ -17,7 +17,7 @@ export class AppComponent implements OnInit {
     this.userService.getUser().subscribe((user) => {
       if(user) {
         this.isUserLoggedIn = true;
-        this.router.navigate(['/home']);
+        this.router.navigate(['/projects']);
       } else {
         this.router.navigate(['landing']);
       this.isUserLoggedIn = false;
