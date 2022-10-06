@@ -1,46 +1,72 @@
-import { Injectable, OnInit } from '@angular/core';
-import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
-import { Observable } from 'rxjs';
+import { Injectable } from '@angular/core';
+import {
+  AngularFirestore,
+  AngularFirestoreCollection,
+} from '@angular/fire/compat/firestore';
+import { Observable, Subscription } from 'rxjs';
 import { Project } from './project.interface';
 import { UserService } from './user.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-export class FirestoreService implements OnInit {
-  userId: string | undefined = undefined;
-  constructor(private userService: UserService, private afs: AngularFirestore) {
+export class FirestoreService {
+  constructor(
+    private afs: AngularFirestore
+  ) {}
+
+  getUserProjects(userId: string): Observable<any> {
+    let userBoardsRef = this.afs
+      .collection('users')
+      .doc(userId)
+      .collection('projects');
+
+    return userBoardsRef.valueChanges();
   }
 
-  ngOnInit(): void {
-    this.userId = this.userService.userDetails?.uid;
-  }
+  addProject(project: Project, userId: string) {
+    let userProjectsRef = this.afs
+      .collection('users')
+      .doc(userId)
+      .collection('projects')
+      .doc();
 
-  addProject(project: Project) {
-      let userProjectsRef = this.afs
-        .collection('users')
-        .doc(this.userId)
-        .collection('projects')
-        .doc();
-      if(project.boardType === 'SCRUM') {
+    switch (project.boardType) {
+      case 'SCRUM':
+        userProjectsRef
+          .set({
+            name: project.name,
+            id: userProjectsRef.ref.id,
+            boardType: project.boardType,
+            sprints: [],
+            backlog: [],
+          })
+          .catch((error) => {
+            console.error('Error adding document: ', error);
+          });
 
-      } else {
+        break;
 
-      }
-      //work in progress
-      userProjectsRef
-        .set({
-          name: project.name,
-          id: userProjectsRef.ref.id,
-          backlog: [],
-          todo: [],
-          inProgress: [],
-          done: [],
-        })
-        .catch((error) => {
-          console.error('Error adding document: ', error);
-        });
+      case 'KANBAN':
+        userProjectsRef
+          .set({
+            name: project.name,
+            id: userProjectsRef.ref.id,
+            boardType: project.boardType,
+            backlog: [],
+            todo: [],
+            inProgress: [],
+            done: [],
+          })
+          .catch((error) => {
+            console.error('Error adding document: ', error);
+          });
+
+        break;
+
+      default:
+        console.log('No board type selected');
+        break;
     }
-
-
+  }
 }

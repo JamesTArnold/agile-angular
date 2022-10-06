@@ -4,7 +4,4 @@ export interface Project {
   boardType: BoardType;
 }
 
-export enum BoardType {
-  KANBAN = 'KANBAN',
-  SCRUM = 'SCRUM',
-}
+export type BoardType = 'SCRUM' | 'KANBAN';

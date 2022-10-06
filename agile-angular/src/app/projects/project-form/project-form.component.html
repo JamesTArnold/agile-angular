@@ -3,13 +3,13 @@
 <mat-dialog-content>
     <mat-form-field>
       <mat-label for="name">Project Name</mat-label>
-      <input id="name" matInput aria-label="name" minlength="4"  formControlName="name" />
+      <input id="ProjectName" matInput aria-label="name" minlength="4"  formControlName="name" />
     </mat-form-field>
     <mat-form-field>
       <mat-label>Project Type</mat-label>
-      <mat-select id="mat-option" matInput placeholder="Name" formControlName="boardType">
-        <mat-option value="'SCRUM'">SCRUM</mat-option>
-        <mat-option value="'KANBAN'">KANBAN</mat-option>
+      <mat-select id="mat-option" matInput formControlName="boardType">
+        <mat-option value="SCRUM">SCRUM</mat-option>
+        <mat-option value="KANBAN">KANBAN</mat-option>
       </mat-select>
     </mat-form-field>
   </mat-dialog-content>

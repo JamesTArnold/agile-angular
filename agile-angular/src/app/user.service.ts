@@ -15,7 +15,7 @@ import firebase from 'firebase/compat/app';
 })
 export class UserService {
   private readonly userDisposable: Subscription | undefined;
-  public readonly user: Observable<User | null> = EMPTY;
+  public readonly user$: Observable<User | null> = EMPTY;
   isUserLoggedIn: boolean = false;
 
   userDetails: User | null = null;
@@ -25,7 +25,7 @@ export class UserService {
     public angularFireAuth: AngularFireAuth
   ) {
     if (auth) {
-      this.user = authState(this.auth);
+      this.user$ = authState(this.auth);
       // this.user.subscribe(user => {
       //   this.userDetails = user;
       //   console.log("🚀 ~ file: user.service.ts ~ line 22 ~ UserService ~ constructor ~ userDetails", this.userDetails)
@@ -45,7 +45,7 @@ export class UserService {
   }
 
   getUser(): Observable<User | null> {
-    return this.user;
+    return this.user$;
   }
 
   loginWithGoogle() {
