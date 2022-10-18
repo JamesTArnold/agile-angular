@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { UserService } from '../user.service';
 import { FirestoreService } from '../firestore.service';
 import { Project, BoardType } from '../project.interface';
@@ -18,6 +18,7 @@ export class ProjectsComponent implements OnInit {
     name: '',
     boardType: 'KANBAN',
     id: '',
+    columns: [],
   };
 
   userId: string = '';

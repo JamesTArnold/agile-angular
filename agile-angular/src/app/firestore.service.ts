@@ -5,7 +5,6 @@ import {
 } from '@angular/fire/compat/firestore';
 import { Observable, Subscription } from 'rxjs';
 import { Project } from './project.interface';
-import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root',
@@ -38,8 +37,16 @@ export class FirestoreService {
             name: project.name,
             id: userProjectsRef.ref.id,
             boardType: project.boardType,
-            sprints: [],
-            backlog: [],
+            columns: [
+              {
+                name: 'sprints',
+                tasks: []
+              },
+              {
+                name: 'backlog',
+                tasks: []
+              }
+            ]
           })
           .catch((error) => {
             console.error('Error adding document: ', error);
@@ -53,10 +60,31 @@ export class FirestoreService {
             name: project.name,
             id: userProjectsRef.ref.id,
             boardType: project.boardType,
-            backlog: [],
-            todo: [],
-            inProgress: [],
-            done: [],
+            columns: [
+              {
+                name: 'Backlog',
+                tasks: [
+                  {
+                    name: 'Task 1',
+                    description: 'Description 1',
+                    id: '1',
+                  }
+                ]
+              },
+              {
+                name: 'todo',
+                tasks: []
+              },
+              {
+                name: 'inProgress',
+                tasks: []
+              },
+              {
+                name: 'done',
+                tasks: []
+              }
+
+            ],
           })
           .catch((error) => {
             console.error('Error adding document: ', error);
@@ -69,4 +97,15 @@ export class FirestoreService {
         break;
     }
   }
+
+  getProject(projectId: string, userId: string): Observable<any> {
+      let userBoardsRef = this.afs
+        .collection('users')
+        .doc(userId)
+        .collection('projects')
+        .doc(projectId);
+
+      return userBoardsRef.valueChanges();
+    }
+
 }

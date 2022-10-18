@@ -6,6 +6,12 @@ import {
 } from '@angular/cdk/drag-drop';
 import { ActivatedRoute } from '@angular/router';
 import { UserService } from '../user.service';
+import { FirestoreService } from '../firestore.service';
+import { Observable } from 'rxjs';
+import { share } from 'rxjs/operators';
+
+
+import { Project } from '../project.interface';
 
 @Component({
   selector: 'app-kanban',
@@ -14,13 +20,19 @@ import { UserService } from '../user.service';
 })
 export class KanbanComponent implements OnInit {
   projectId: string = '';
+  userId: string | undefined = undefined;
+
+  project$:Observable<Project> = new Observable();
 
   todo = ['Get to work', 'Pick up groceries', 'Go home', 'Fall asleep'];
 
   done = ['Get up', 'Brush teeth', 'Take a shower', 'Check e-mail', 'Walk dog'];
 
-  drop(event: CdkDragDrop<string[]>) {
+  drop(event: CdkDragDrop<any>) {
+
+    console.log(event);
     if (event.previousContainer === event.container) {
+
       moveItemInArray(
         event.container.data,
         event.previousIndex,
@@ -38,7 +50,9 @@ export class KanbanComponent implements OnInit {
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private userService: UserService
+    private userService: UserService,
+    private firestoreService: FirestoreService
+
   ) {}
 
   ngOnInit(): void {
@@ -46,6 +60,13 @@ export class KanbanComponent implements OnInit {
       this.projectId = params['projectId'];
     });
 
-    this.userService.user$.subscribe((project) => {});
+    this.userService.user$.subscribe((user) => {
+      if (user) {
+        this.userId = user.uid;
+        this.project$ = this.firestoreService.getProject(
+         this.projectId, user.uid)
+         .pipe(share())
+      }
+    });
   }
 }
