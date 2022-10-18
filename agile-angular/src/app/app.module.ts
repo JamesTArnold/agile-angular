@@ -21,6 +21,7 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {MatSelectModule} from '@angular/material/select';
+import {DragDropModule} from '@angular/cdk/drag-drop';
 
 
 import { ProjectsComponent } from './projects/projects.component';
@@ -28,6 +29,7 @@ import { LandingPageComponent } from './landing-page/landing-page.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NavigationComponent } from './navigation/navigation.component';
 import { ProjectFormComponent } from './projects/project-form/project-form.component';
+import { KanbanComponent } from './kanban/kanban.component';
 
 
 
@@ -37,7 +39,8 @@ import { ProjectFormComponent } from './projects/project-form/project-form.compo
     ProjectsComponent,
     LandingPageComponent,
     NavigationComponent,
-    ProjectFormComponent
+    ProjectFormComponent,
+    KanbanComponent
   ],
   imports: [
     BrowserModule,
@@ -56,7 +59,8 @@ import { ProjectFormComponent } from './projects/project-form/project-form.compo
     MatDialogModule,
     MatFormFieldModule,
     MatSelectModule,
-    MatInputModule
+    MatInputModule,
+    DragDropModule
 
 
   ],

@@ -9,7 +9,7 @@
   <div class="grid-container">
     <mat-nav-list *ngIf="projects$ | async as projects">
 
-      <a *ngFor="let project of projects" mat-list-item routerLInk="/"> {{project.name}} </a>
+      <a *ngFor="let project of projects" mat-list-item (click)="gotoPrject(project)"> {{project.name}} </a>
     </mat-nav-list>
 
 
