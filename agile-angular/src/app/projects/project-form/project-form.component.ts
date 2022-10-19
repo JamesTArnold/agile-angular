@@ -10,7 +10,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 export class ProjectFormComponent implements OnInit {
   projectForm = this.fb.group({
     name: ['', Validators.required],
-    boardType: ['', Validators.required],
+    projectType: ['', Validators.required],
   });
 
   constructor(private fb: FormBuilder, private dialogRef: MatDialogRef<ProjectFormComponent>) {}

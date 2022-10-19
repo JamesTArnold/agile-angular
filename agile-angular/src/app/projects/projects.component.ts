@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from '../user.service';
 import { FirestoreService } from '../firestore.service';
-import { Project, BoardType } from '../project.interface';
+import { Project } from '../project.interface';
 import { Observable } from 'rxjs';
 import { share } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
@@ -16,9 +16,18 @@ import { ProjectFormComponent } from './project-form/project-form.component';
 export class ProjectsComponent implements OnInit {
   project: Project = {
     name: '',
-    boardType: 'KANBAN',
+    projectType: 'KANBAN',
     id: '',
-    columns: [],
+    kanban: {
+      backlog: [],
+      todo: [],
+      inProgress: [],
+      done: [],
+    } ,
+    scrum: {
+      sprints: [],
+      backlog: [],
+    }
   };
 
   userId: string = '';
@@ -55,8 +64,8 @@ export class ProjectsComponent implements OnInit {
       }
     });
   }
-  gotoPrject(project: Project) {
-    if (project.boardType === 'KANBAN') {
+  gotoProject(project: Project) {
+    if (project.projectType === 'KANBAN') {
       this.router.navigate(['kanban', project.id]);
     } else {
       this.router.navigate(['scrum', project.id]);

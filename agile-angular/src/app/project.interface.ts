@@ -1,21 +1,30 @@
-
 export interface Project {
   name: string;
-  boardType: BoardType;
+  projectType: projectType;
   id: string;
-  columns: Column[];
+  kanban: {
+    todo: issue[];
+    inProgress: issue[];
+    backlog: issue[];
+    done: issue[];
+  };
+  scrum: {
+    sprints: Sprint[];
+    backlog: issue[];
+  };
 }
 
-export type BoardType = 'SCRUM' | 'KANBAN';
+export type projectType = 'SCRUM' | 'KANBAN';
 
-export interface Column {
+export interface Sprint {
   name: string;
-  tasks: Task[];
+  todo: issue[];
+  inProgress: issue[];
+  done: issue[];
 }
 
-export interface Task {
+export interface issue {
   name: string;
   description: string;
   id: string;
-
 }

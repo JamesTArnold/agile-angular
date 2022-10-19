@@ -11,7 +11,7 @@
       (cdkDropListDropped)="drop($event)"
     >
       <div class="kanban-box" *ngFor="let item of backlog" cdkDrag>
-        {{ item.name }}
+        {{ item?.name }}
       </div>
     </div>
   </div>
