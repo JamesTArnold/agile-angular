@@ -60,31 +60,17 @@ export class FirestoreService {
             name: project.name,
             id: userProjectsRef.ref.id,
             boardType: project.boardType,
-            columns: [
+            backlog: [
               {
-                name: 'Backlog',
-                tasks: [
-                  {
-                    name: 'Task 1',
-                    description: 'Description 1',
-                    id: '1',
-                  }
-                ]
-              },
-              {
-                name: 'todo',
-                tasks: []
-              },
-              {
-                name: 'inProgress',
-                tasks: []
-              },
-              {
-                name: 'done',
-                tasks: []
+                name: 'Task 1',
+                description: 'Description 1',
+                id: '1',
               }
-
             ],
+            todo: [
+            ],
+            inProgress: [],
+            done: [],
           })
           .catch((error) => {
             console.error('Error adding document: ', error);
@@ -106,6 +92,20 @@ export class FirestoreService {
         .doc(projectId);
 
       return userBoardsRef.valueChanges();
+    }
+
+    updateProject(project: Project, userId: string) {
+      let userProjectRef = this.afs
+        .collection('users')
+        .doc(userId)
+        .collection('projects')
+        .doc(project.id);
+
+      userProjectRef
+        .set(project)
+        .catch((error) => {
+          console.error('Error adding document: ', error);
+        });
     }
 
 }

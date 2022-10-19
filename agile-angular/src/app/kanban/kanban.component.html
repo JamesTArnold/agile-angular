@@ -1,35 +1,71 @@
-<div *ngIf="project$ | async as project">
-  <!-- <pre>{{ project | json }}</pre> -->
-  <div *ngFor="let column of project?.columns; let i=index" class="example-container">
-    <h2>{{ column.name | titlecase}}</h2>
+<div *ngIf="project">
+  <div class="kanban-container">
+    <h2>Backlog</h2>
 
     <div
       cdkDropList
-      [cdkDropListData]="column.tasks"
-      cdkDropListSortingDisabled
-      class="example-list"
-      (cdkDropListDropped)="drop($event)"
-    >
-      <div class="example-box" *ngFor="let item of column.tasks" cdkDrag>
-        {{ item?.name }}
-      </div>
-    </div>
-  </div>
-
-  <!-- <div class="example-container">
-    <h2>Done</h2>
-
-    <div
-      cdkDropList
-      #doneList="cdkDropList"
-      [cdkDropListData]="done"
+      class="kanban-list"
+      #backlogList="cdkDropList"
+      [cdkDropListData]="backlog"
       [cdkDropListConnectedTo]="[todoList]"
-      class="example-list"
       (cdkDropListDropped)="drop($event)"
     >
-      <div class="example-box" *ngFor="let item of done" cdkDrag>
-        {{ item }}
+      <div class="kanban-box" *ngFor="let item of backlog" cdkDrag>
+        {{ item.name }}
       </div>
     </div>
   </div>
-</div> -->
+
+  <div class="kanban-container">
+    <h2>Todo</h2>
+
+    <div
+      cdkDropList
+      #todoList="cdkDropList"
+      class="kanban-list"
+      [cdkDropListData]="todo"
+      [cdkDropListConnectedTo]="[inProgressList, backlogList]"
+      (cdkDropListDropped)="drop($event)"
+    >
+      <div class="kanban-box" *ngFor="let item of todo" cdkDrag>
+        {{ item.name }}
+      </div>
+    </div>
+  </div>
+
+  <div class="kanban-container">
+    <h2>In Progress</h2>
+
+    <div
+      cdkDropList
+      #inProgressList="cdkDropList"
+      [cdkDropListData]="inProgress"
+      [cdkDropListConnectedTo]="[doneList, todoList]"
+      class="kanban-list"
+      (cdkDropListDropped)="drop($event)"
+    >
+      <div class="kanban-box" *ngFor="let item of inProgress" cdkDrag>
+        {{ item.name }}
+      </div>
+    </div>
+
+    <div class="kanban-container">
+      <h2>Done</h2>
+
+      <div
+        cdkDropList
+        #doneList="cdkDropList"
+        class="kanban-list"
+        [cdkDropListData]="done"
+        [cdkDropListConnectedTo]="[inProgressList]"
+        (cdkDropListDropped)="drop($event)"
+      >
+        <div class="kanban-box" *ngFor="let item of done" cdkDrag>
+          {{ item.name }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<pre>{{ project | json }}</pre>

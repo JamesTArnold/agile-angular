@@ -11,7 +11,7 @@ import { Observable } from 'rxjs';
 import { share } from 'rxjs/operators';
 
 
-import { Project } from '../project.interface';
+import { Project, Task} from '../project.interface';
 
 @Component({
   selector: 'app-kanban',
@@ -24,9 +24,51 @@ export class KanbanComponent implements OnInit {
 
   project$:Observable<Project> = new Observable();
 
-  todo = ['Get to work', 'Pick up groceries', 'Go home', 'Fall asleep'];
+  backlog: Task[] = [];
+  todo: Task[] = [];
+  inProgress: Task[] = [];
+  done: Task[] = [];
 
-  done = ['Get up', 'Brush teeth', 'Take a shower', 'Check e-mail', 'Walk dog'];
+  project: Project = {
+    name: '',
+    boardType: 'KANBAN',
+    id: '',
+    columns: [],
+  };
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private userService: UserService,
+    private firestoreService: FirestoreService
+
+  ) {}
+
+  ngOnInit(): void {
+    this.activatedRoute.params.subscribe((params) => {
+      this.projectId = params['projectId'];
+
+    });
+
+    this.userService.user$.subscribe((user) => {
+      if (user) {
+        this.userId = user.uid;
+
+        this.firestoreService.getProject(
+          this.projectId, user.uid).subscribe((projectData) => {
+          if(projectData){
+          this.project = projectData;
+          this. backlog = projectData.backlog;
+          this.todo = projectData.todo;
+          this.inProgress = projectData.inProgress;
+          this.done = projectData.done;
+        }
+        });
+      }
+    });
+
+
+
+  }
+
 
   drop(event: CdkDragDrop<any>) {
 
@@ -46,27 +88,7 @@ export class KanbanComponent implements OnInit {
         event.currentIndex
       );
     }
-  }
 
-  constructor(
-    private activatedRoute: ActivatedRoute,
-    private userService: UserService,
-    private firestoreService: FirestoreService
 
-  ) {}
-
-  ngOnInit(): void {
-    this.activatedRoute.params.subscribe((params) => {
-      this.projectId = params['projectId'];
-    });
-
-    this.userService.user$.subscribe((user) => {
-      if (user) {
-        this.userId = user.uid;
-        this.project$ = this.firestoreService.getProject(
-         this.projectId, user.uid)
-         .pipe(share())
-      }
-    });
   }
 }
