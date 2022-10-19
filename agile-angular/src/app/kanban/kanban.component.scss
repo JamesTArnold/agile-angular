@@ -1,5 +1,12 @@
+.kanban-page-container {
+  display: grid;
+  margin: 25px;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-gap: 1rem;
+}
+
 .kanban-container {
-  width: 400px;
+  width: 350px;
   max-width: 100%;
   margin: 0 25px 25px 0;
   display: inline-block;

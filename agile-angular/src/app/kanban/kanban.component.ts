@@ -8,7 +8,6 @@ import { ActivatedRoute } from '@angular/router';
 import { UserService } from '../user.service';
 import { FirestoreService } from '../firestore.service';
 import { Observable } from 'rxjs';
-
 import { Project, issue } from '../project.interface';
 
 @Component({
