@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-  AngularFirestore,
-} from '@angular/fire/compat/firestore';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Observable } from 'rxjs';
 import { Project } from './project.interface';
 
@@ -71,4 +69,23 @@ export class FirestoreService {
       console.log('User not logged in');
     }
   }
+
+  //   addKanbanIssue(issue: issue, projectId: string, userId: string) {
+  //     let userProjectRef = this.afs
+  //       .collection('users')
+  //       .doc(userId)
+  //       .collection('projects')
+  //       .doc(projectId);
+
+  //     userProjectRef.update({
+  //       kanban: {
+  //         backlog: [
+  //           ...issue,
+  //           id:
+  //         ],
+  //       },
+  //     });
+  //   }
+
+  // }
 }

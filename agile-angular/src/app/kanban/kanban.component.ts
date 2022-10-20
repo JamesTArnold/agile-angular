@@ -105,10 +105,28 @@ export class KanbanComponent implements OnInit {
       disableClose: true,
     });
     dialogRef.afterClosed().subscribe((result) => {
-      // if (result !== undefined) {
-      //   this.project = result;
-      //   this.firestoreService.addProject(this.project, this.userId);
-      // }
+      if (result !== undefined) {
+        let issue = {
+          id: this.CreateUUID(),
+          name: result.name,
+          description: result.description,
+          priority: result.priority,
+        };
+        this.project.kanban.backlog.push(issue);
+
+        this.firestoreService.updateProject(this.project, this.userId);
+      }
     });
+  }
+
+  CreateUUID() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(
+      /[xy]/g,
+      function (c) {
+        var r = (Math.random() * 16) | 0,
+          v = c == 'x' ? r : (r & 0x3) | 0x8;
+        return v.toString(16);
+      }
+    );
   }
 }
