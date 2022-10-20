@@ -3,14 +3,14 @@ export interface Project {
   projectType: projectType;
   id: string;
   kanban: {
-    todo: issue[];
-    inProgress: issue[];
-    backlog: issue[];
-    done: issue[];
+    todo: Issue[];
+    inProgress: Issue[];
+    backlog: Issue[];
+    done: Issue[];
   };
   scrum: {
     sprints: Sprint[];
-    backlog: issue[];
+    backlog: Issue[];
   };
 }
 
@@ -18,12 +18,12 @@ export type projectType = 'SCRUM' | 'KANBAN';
 
 export interface Sprint {
   name: string;
-  todo: issue[];
-  inProgress: issue[];
-  done: issue[];
+  todo: Issue[];
+  inProgress: Issue[];
+  done: Issue[];
 }
 
-export interface issue {
+export interface Issue {
   name: string;
   description: string;
   priority: 'LOW' | 'MEDIUM' | 'HIGH';

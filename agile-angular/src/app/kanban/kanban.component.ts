@@ -8,7 +8,7 @@ import { ActivatedRoute } from '@angular/router';
 import { UserService } from '../user.service';
 import { FirestoreService } from '../firestore.service';
 import { Observable } from 'rxjs';
-import { Project, issue } from '../project.interface';
+import { Project, Issue } from '../project.interface';
 import { MatDialog } from '@angular/material/dialog';
 import { IssueFormComponent } from '../issue-form/issue-form.component';
 
@@ -23,10 +23,10 @@ export class KanbanComponent implements OnInit {
 
   project$: Observable<Project> = new Observable();
 
-  backlog: issue[] = [];
-  todo: issue[] = [];
-  inProgress: issue[] = [];
-  done: issue[] = [];
+  backlog: Issue[] = [];
+  todo: Issue[] = [];
+  inProgress: Issue[] = [];
+  done: Issue[] = [];
 
   project: Project = {
     name: '',
@@ -113,7 +113,29 @@ export class KanbanComponent implements OnInit {
           priority: result.priority,
         };
         this.project.kanban.backlog.push(issue);
+        this.firestoreService.updateProject(this.project, this.userId);
+      }
+    });
+  }
 
+  editIssue(issue: Issue, fromColumn: string) {
+    const dialogRef = this.dialog.open(IssueFormComponent, {
+      width: '250px',
+      disableClose: true,
+      data: issue,
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result !== undefined) {
+        let issue = {
+          id: this.CreateUUID(),
+          name: result.name,
+          description: result.description,
+          priority: result.priority,
+        };
+        this.project.kanban.backlog = this.backlog;
+        this.project.kanban.todo = this.todo;
+        this.project.kanban.inProgress = this.inProgress;
+        this.project.kanban.done = this.done;
         this.firestoreService.updateProject(this.project, this.userId);
       }
     });
