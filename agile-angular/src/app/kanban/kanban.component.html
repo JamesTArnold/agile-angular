@@ -40,7 +40,7 @@
       (cdkDropListDropped)="drop($event)"
     >
       <ng-container *ngFor="let item of todo">
-        <div (click)="editIssue(item, 'item')" class="kanban-box" cdkDrag>
+        <div (click)="editIssue(item, 'todo')" class="kanban-box" cdkDrag>
           {{ item.name }}
         </div>
       </ng-container>

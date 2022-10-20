@@ -132,10 +132,47 @@ export class KanbanComponent implements OnInit {
           description: result.description,
           priority: result.priority,
         };
-        this.project.kanban.backlog = this.backlog;
-        this.project.kanban.todo = this.todo;
-        this.project.kanban.inProgress = this.inProgress;
-        this.project.kanban.done = this.done;
+
+        switch (fromColumn) {
+          case 'backlog':
+            let backlogIndex = this.project.kanban.backlog
+              .map((x) => {
+                return x.id;
+              })
+              .indexOf(issue.id);
+            this.project.kanban.backlog.splice(backlogIndex, 1);
+            this.project.kanban.backlog.push(issue);
+            break;
+          case 'todo':
+            let todoIndex = this.project.kanban.todo
+              .map((x) => {
+                return x.id;
+              })
+              .indexOf(issue.id);
+            this.project.kanban.todo.splice(todoIndex, 1);
+            this.project.kanban.todo.push(issue);
+            break;
+          case 'inProgress':
+            let inProgressIndex = this.project.kanban.inProgress
+              .map((x) => {
+                return x.id;
+              })
+              .indexOf(issue.id);
+            this.project.kanban.inProgress.splice(inProgressIndex, 1);
+            this.project.kanban.inProgress.push(issue);
+            break;
+          case 'done':
+            let doneIndex = this.project.kanban.done
+              .map((x) => {
+                return x.id;
+              })
+              .indexOf(issue.id);
+            this.project.kanban.done.splice(doneIndex, 1);
+            this.project.kanban.done.push(issue);
+            break;
+          default:
+            break;
+        }
         this.firestoreService.updateProject(this.project, this.userId);
       }
     });

@@ -30,9 +30,9 @@ export class FirestoreService {
       id: userProjectsRef.ref.id,
       projectType: project.projectType,
       kanban: {
-        todo: [{ name: 'test', description: 'test', id: 'test' }],
-        inProgress: [],
         backlog: [],
+        todo: [],
+        inProgress: [],
         done: [],
       },
       scrum: {

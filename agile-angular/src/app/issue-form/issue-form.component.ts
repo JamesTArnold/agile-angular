@@ -24,10 +24,6 @@ export class IssueFormComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log(
-      '🚀 ~ file: issue-form.component.ts ~ line 28 ~ IssueFormComponent ~ ngOnInit ~ this.data',
-      this.data
-    );
     if (this.data) {
       this.issueForm.patchValue({
         name: this.data.name,
