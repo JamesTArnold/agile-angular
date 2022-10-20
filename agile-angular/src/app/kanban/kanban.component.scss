@@ -5,6 +5,10 @@
   grid-gap: 1rem;
 }
 
+.toolbar-button-spacer {
+  padding-left: 25px;
+}
+
 .kanban-container {
   width: 350px;
   max-width: 100%;
@@ -59,3 +63,5 @@
 .kanban-list.cdk-drop-list-dragging .kanban-box:not(.cdk-drag-placeholder) {
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }
+
+

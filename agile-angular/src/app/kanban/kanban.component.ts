@@ -9,6 +9,8 @@ import { UserService } from '../user.service';
 import { FirestoreService } from '../firestore.service';
 import { Observable } from 'rxjs';
 import { Project, issue } from '../project.interface';
+import { MatDialog } from '@angular/material/dialog';
+import { IssueFormComponent } from '../issue-form/issue-form.component';
 
 @Component({
   selector: 'app-kanban',
@@ -41,10 +43,12 @@ export class KanbanComponent implements OnInit {
       backlog: [],
     },
   };
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private userService: UserService,
-    private firestoreService: FirestoreService
+    private firestoreService: FirestoreService,
+    public dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -93,5 +97,18 @@ export class KanbanComponent implements OnInit {
 
       this.firestoreService.updateProject(this.project, this.userId);
     }
+  }
+
+  addIssue() {
+    const dialogRef = this.dialog.open(IssueFormComponent, {
+      width: '250px',
+      disableClose: true,
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      // if (result !== undefined) {
+      //   this.project = result;
+      //   this.firestoreService.addProject(this.project, this.userId);
+      // }
+    });
   }
 }

@@ -1,8 +1,10 @@
 <mat-toolbar color="primary">
   <mat-toolbar-row>
-    <span>Projects</span>
+    <span>{{ project.name }}</span>
+    <span class="toolbar-button-spacer">
+      <button mat-stroked-button (click)="addIssue()">CREATE ISSUE</button>
+    </span>
     <span class="toolbar-spacer"></span>
-    <button mat-raised-button color="accent">ISSUE</button>
   </mat-toolbar-row>
 </mat-toolbar>
 
@@ -19,7 +21,7 @@
       (cdkDropListDropped)="drop($event)"
     >
       <div class="kanban-box" *ngFor="let item of backlog" cdkDrag>
-        {{ item?.name }}
+        {{ item.name }}
       </div>
     </div>
   </div>

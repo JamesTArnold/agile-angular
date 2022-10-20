@@ -30,6 +30,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NavigationComponent } from './navigation/navigation.component';
 import { ProjectFormComponent } from './projects/project-form/project-form.component';
 import { KanbanComponent } from './kanban/kanban.component';
+import { IssueFormComponent } from './issue-form/issue-form.component';
 
 
 
@@ -40,7 +41,8 @@ import { KanbanComponent } from './kanban/kanban.component';
     LandingPageComponent,
     NavigationComponent,
     ProjectFormComponent,
-    KanbanComponent
+    KanbanComponent,
+    IssueFormComponent
   ],
   imports: [
     BrowserModule,
