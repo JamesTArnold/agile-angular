@@ -64,6 +64,7 @@ export class ProjectsComponent implements OnInit {
       }
     });
   }
+
   gotoProject(project: Project) {
     if (project.projectType === 'KANBAN') {
       this.router.navigate(['kanban', project.id]);

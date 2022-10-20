@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 
@@ -7,7 +7,7 @@ import { MatDialogRef } from '@angular/material/dialog';
   templateUrl: './project-form.component.html',
   styleUrls: ['./project-form.component.scss'],
 })
-export class ProjectFormComponent implements OnInit {
+export class ProjectFormComponent {
   projectForm = this.fb.group({
     name: ['', Validators.required],
     projectType: ['', Validators.required],
@@ -15,7 +15,6 @@ export class ProjectFormComponent implements OnInit {
 
   constructor(private fb: FormBuilder, private dialogRef: MatDialogRef<ProjectFormComponent>) {}
 
-  ngOnInit(): void {}
 
   onSubmit() {
     this.dialogRef.close(this.projectForm.value);

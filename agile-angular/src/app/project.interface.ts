@@ -26,5 +26,6 @@ export interface Sprint {
 export interface issue {
   name: string;
   description: string;
+  priority: 'LOW' | 'MEDIUM' | 'HIGH';
   id: string;
 }
