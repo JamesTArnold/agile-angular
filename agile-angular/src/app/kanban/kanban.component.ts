@@ -105,9 +105,9 @@ export class KanbanComponent implements OnInit {
       disableClose: true,
     });
     dialogRef.afterClosed().subscribe((result) => {
-      if (result !== undefined) {
+      if (result !== 'cancel') {
         let issue = {
-          id: this.CreateUUID(),
+          id: result.id,
           name: result.name,
           description: result.description,
           priority: result.priority,
@@ -125,12 +125,14 @@ export class KanbanComponent implements OnInit {
       data: issue,
     });
     dialogRef.afterClosed().subscribe((result) => {
-      if (result !== undefined) {
-        let issue = {
-          id: this.CreateUUID(),
-          name: result.name,
-          description: result.description,
-          priority: result.priority,
+      if (result !== 'cancel') {
+        let resultIssue = {
+          id: result.id ? result.id : issue.id,
+          name: result.name ? result.name : issue.name,
+          description: result.description
+            ? result.description
+            : issue.description,
+          priority: result.priority ? result.priority : issue.priority,
         };
 
         switch (fromColumn) {
@@ -139,36 +141,46 @@ export class KanbanComponent implements OnInit {
               .map((x) => {
                 return x.id;
               })
-              .indexOf(issue.id);
+              .indexOf(resultIssue.id);
+
             this.project.kanban.backlog.splice(backlogIndex, 1);
-            this.project.kanban.backlog.push(issue);
+
+            if (result !== 'delete') {
+              this.project.kanban.backlog.splice(backlogIndex, 0, resultIssue);
+            }
             break;
           case 'todo':
             let todoIndex = this.project.kanban.todo
               .map((x) => {
                 return x.id;
               })
-              .indexOf(issue.id);
+              .indexOf(resultIssue.id);
             this.project.kanban.todo.splice(todoIndex, 1);
-            this.project.kanban.todo.push(issue);
+            if (result !== 'delete') {
+              this.project.kanban.todo.splice(todoIndex, 0, resultIssue);
+            }
             break;
           case 'inProgress':
             let inProgressIndex = this.project.kanban.inProgress
               .map((x) => {
                 return x.id;
               })
-              .indexOf(issue.id);
+              .indexOf(resultIssue.id);
             this.project.kanban.inProgress.splice(inProgressIndex, 1);
-            this.project.kanban.inProgress.push(issue);
+            if (result !== 'delete') {
+              this.project.kanban.inProgress.push(resultIssue);
+            }
             break;
           case 'done':
             let doneIndex = this.project.kanban.done
               .map((x) => {
                 return x.id;
               })
-              .indexOf(issue.id);
+              .indexOf(resultIssue.id);
             this.project.kanban.done.splice(doneIndex, 1);
-            this.project.kanban.done.push(issue);
+            if (result !== 'delete') {
+              this.project.kanban.done.push(resultIssue);
+            }
             break;
           default:
             break;
@@ -176,16 +188,5 @@ export class KanbanComponent implements OnInit {
         this.firestoreService.updateProject(this.project, this.userId);
       }
     });
-  }
-
-  CreateUUID() {
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(
-      /[xy]/g,
-      function (c) {
-        var r = (Math.random() * 16) | 0,
-          v = c == 'x' ? r : (r & 0x3) | 0x8;
-        return v.toString(16);
-      }
-    );
   }
 }
