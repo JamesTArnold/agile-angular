@@ -21,8 +21,14 @@
       (cdkDropListDropped)="drop($event)"
     >
       <ng-container *ngFor="let item of backlog">
-        <div (click)="editIssue(item, 'backlog')" class="kanban-box" cdkDrag>
-          {{ item.name }}
+        <div
+          (click)="editIssueClicked(item, 'backlog')"
+          class="kanban-box"
+          [matTooltip]="item.description"
+          matTooltipPosition="after"
+          cdkDrag
+        >
+          {{ item.name | truncate: 40 }}
         </div>
       </ng-container>
     </div>
@@ -40,8 +46,14 @@
       (cdkDropListDropped)="drop($event)"
     >
       <ng-container *ngFor="let item of todo">
-        <div (click)="editIssue(item, 'todo')" class="kanban-box" cdkDrag>
-          {{ item.name }}
+        <div
+          (click)="editIssueClicked(item, 'todo')"
+          class="kanban-box"
+          [matTooltip]="item.description"
+          matTooltipPosition="after"
+          cdkDrag
+        >
+          {{ item.name | truncate: 40 }}
         </div>
       </ng-container>
     </div>
@@ -59,8 +71,14 @@
       (cdkDropListDropped)="drop($event)"
     >
       <ng-container *ngFor="let item of inProgress">
-        <div (click)="editIssue(item, 'inProgress')" class="kanban-box" cdkDrag>
-          {{ item.name }}
+        <div
+          (click)="editIssueClicked(item, 'inProgress')"
+          class="kanban-box"
+          [matTooltip]="item.description"
+          matTooltipPosition="after"
+          cdkDrag
+        >
+          {{ item.name | truncate: 40 }}
         </div>
       </ng-container>
     </div>
@@ -78,8 +96,26 @@
       (cdkDropListDropped)="drop($event)"
     >
       <ng-container *ngFor="let item of done">
-        <div class="kanban-box" (click)="editIssue(item, 'done')" cdkDrag>
-          {{ item.name }}
+        <div
+          class="kanban-box"
+          (click)="editIssueClicked(item, 'done')"
+          (mouseenter)="doneHoverItem = item.id"
+          (mouseleave)="doneHoverItem = ''"
+          [matTooltip]="item.description"
+          matTooltipPosition="before"
+          cdkDrag
+        >
+          {{ item.name | truncate: 36 }}
+          <button
+            *ngIf="doneHoverItem === item.id"
+            [@fade]="'in'"
+            class="kanban-done-item-button"
+            color="warn"
+            mat-icon-button
+            (click)="deleteDoneIssueClicked(item)"
+          >
+            <mat-icon class="kanban-done-item-button-icon">close</mat-icon>
+          </button>
         </div>
       </ng-container>
     </div>

@@ -5,24 +5,24 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ReactiveFormsModule } from '@angular/forms';
 
-import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
+import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
-import { provideAuth,getAuth } from '@angular/fire/auth';
+import { provideAuth, getAuth } from '@angular/fire/auth';
 import { FIREBASE_OPTIONS } from '@angular/fire/compat';
-import { provideFirestore,getFirestore } from '@angular/fire/firestore';
+import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 
-import {MatToolbarModule} from '@angular/material/toolbar';
-import {MatIconModule} from '@angular/material/icon';
-import {MatCardModule} from '@angular/material/card';
-import {MatButtonModule} from '@angular/material/button';
-import {MatMenuModule} from '@angular/material/menu';
-import {MatListModule} from '@angular/material/list';
-import {MatDialogModule} from '@angular/material/dialog';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatInputModule} from '@angular/material/input';
-import {MatSelectModule} from '@angular/material/select';
-import {DragDropModule} from '@angular/cdk/drag-drop';
-
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material/icon';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatListModule } from '@angular/material/list';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { ProjectsComponent } from './projects/projects.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
@@ -31,8 +31,7 @@ import { NavigationComponent } from './navigation/navigation.component';
 import { ProjectFormComponent } from './projects/project-form/project-form.component';
 import { KanbanComponent } from './kanban/kanban.component';
 import { IssueFormComponent } from './issue-form/issue-form.component';
-
-
+import { TruncatePipe } from './truncate.pipe';
 
 @NgModule({
   declarations: [
@@ -42,7 +41,8 @@ import { IssueFormComponent } from './issue-form/issue-form.component';
     NavigationComponent,
     ProjectFormComponent,
     KanbanComponent,
-    IssueFormComponent
+    IssueFormComponent,
+    TruncatePipe,
   ],
   imports: [
     BrowserModule,
@@ -62,14 +62,11 @@ import { IssueFormComponent } from './issue-form/issue-form.component';
     MatFormFieldModule,
     MatSelectModule,
     MatInputModule,
-    DragDropModule
-
-
+    DragDropModule,
+    MatTooltipModule,
   ],
 
-  providers: [
-    { provide: FIREBASE_OPTIONS, useValue: environment.firebase }
-],
-  bootstrap: [AppComponent]
+  providers: [{ provide: FIREBASE_OPTIONS, useValue: environment.firebase }],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

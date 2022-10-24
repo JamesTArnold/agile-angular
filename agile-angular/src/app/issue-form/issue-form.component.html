@@ -2,6 +2,7 @@
   {{ this.data ? "Edit Issue" : "Create New Issue" }}
   <span *ngIf="this.data" class="more-button">
     <button
+      tabindex="-1"
       mat-icon-button
       [matMenuTriggerFor]="menu"
       aria-label="Example icon-button with a menu"
@@ -16,7 +17,7 @@
     </button>
   </mat-menu>
 </h2>
-<form [formGroup]="issueForm">
+<form [formGroup]="issueForm" (ngSubmit)="onSubmit()">
   <mat-dialog-content>
     <mat-form-field>
       <mat-label for="name">Issue Name</mat-label>
@@ -26,6 +27,7 @@
         aria-label="name"
         minlength="4"
         formControlName="name"
+        autocomplete="off"
       />
     </mat-form-field>
     <mat-form-field>

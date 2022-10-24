@@ -11,11 +11,27 @@ import { Observable } from 'rxjs';
 import { Project, Issue } from '../project.interface';
 import { MatDialog } from '@angular/material/dialog';
 import { IssueFormComponent } from '../issue-form/issue-form.component';
+import {
+  trigger,
+  state,
+  style,
+  animate,
+  transition,
+} from '@angular/animations';
 
 @Component({
   selector: 'app-kanban',
   templateUrl: './kanban.component.html',
   styleUrls: ['./kanban.component.scss'],
+  animations: [
+    trigger('fade', [
+      state('in', style({ opacity: 1 })),
+
+      transition(':enter', [style({ opacity: 0 }), animate(600)]),
+
+      transition(':leave', animate(200, style({ opacity: 0 }))),
+    ]),
+  ],
 })
 export class KanbanComponent implements OnInit {
   projectId: string = '';
@@ -43,6 +59,8 @@ export class KanbanComponent implements OnInit {
       backlog: [],
     },
   };
+
+  doneHoverItem: string = '';
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -118,75 +136,86 @@ export class KanbanComponent implements OnInit {
     });
   }
 
-  editIssue(issue: Issue, fromColumn: string) {
+  editIssueClicked(issue: Issue, fromColumn: string) {
     const dialogRef = this.dialog.open(IssueFormComponent, {
       width: '250px',
       disableClose: true,
       data: issue,
     });
     dialogRef.afterClosed().subscribe((result) => {
-      if (result !== 'cancel') {
-        let resultIssue = {
-          id: result.id ? result.id : issue.id,
-          name: result.name ? result.name : issue.name,
-          description: result.description
-            ? result.description
-            : issue.description,
-          priority: result.priority ? result.priority : issue.priority,
-        };
-
-        switch (fromColumn) {
-          case 'backlog':
-            let backlogIndex = this.project.kanban.backlog
-              .map((x) => {
-                return x.id;
-              })
-              .indexOf(resultIssue.id);
-
-            this.project.kanban.backlog.splice(backlogIndex, 1);
-
-            if (result !== 'delete') {
-              this.project.kanban.backlog.splice(backlogIndex, 0, resultIssue);
-            }
-            break;
-          case 'todo':
-            let todoIndex = this.project.kanban.todo
-              .map((x) => {
-                return x.id;
-              })
-              .indexOf(resultIssue.id);
-            this.project.kanban.todo.splice(todoIndex, 1);
-            if (result !== 'delete') {
-              this.project.kanban.todo.splice(todoIndex, 0, resultIssue);
-            }
-            break;
-          case 'inProgress':
-            let inProgressIndex = this.project.kanban.inProgress
-              .map((x) => {
-                return x.id;
-              })
-              .indexOf(resultIssue.id);
-            this.project.kanban.inProgress.splice(inProgressIndex, 1);
-            if (result !== 'delete') {
-              this.project.kanban.inProgress.push(resultIssue);
-            }
-            break;
-          case 'done':
-            let doneIndex = this.project.kanban.done
-              .map((x) => {
-                return x.id;
-              })
-              .indexOf(resultIssue.id);
-            this.project.kanban.done.splice(doneIndex, 1);
-            if (result !== 'delete') {
-              this.project.kanban.done.push(resultIssue);
-            }
-            break;
-          default:
-            break;
-        }
-        this.firestoreService.updateProject(this.project, this.userId);
-      }
+      this.editIssue(result, issue, fromColumn);
     });
+  }
+
+  private editIssue(result: any, issue: Issue, fromColumn: string) {
+    if (result !== 'cancel') {
+      let resultIssue = {
+        id: result.id ? result.id : issue.id,
+        name: result.name ? result.name : issue.name,
+        description: result.description
+          ? result.description
+          : issue.description,
+        priority: result.priority ? result.priority : issue.priority,
+      };
+
+      switch (fromColumn) {
+        case 'backlog':
+          let backlogIndex = this.project.kanban.backlog
+            .map((x) => {
+              return x.id;
+            })
+            .indexOf(resultIssue.id);
+
+          this.project.kanban.backlog.splice(backlogIndex, 1);
+
+          if (result !== 'delete') {
+            this.project.kanban.backlog.splice(backlogIndex, 0, resultIssue);
+          }
+          break;
+        case 'todo':
+          let todoIndex = this.project.kanban.todo
+            .map((x) => {
+              return x.id;
+            })
+            .indexOf(resultIssue.id);
+          this.project.kanban.todo.splice(todoIndex, 1);
+          if (result !== 'delete') {
+            this.project.kanban.todo.splice(todoIndex, 0, resultIssue);
+          }
+          break;
+        case 'inProgress':
+          let inProgressIndex = this.project.kanban.inProgress
+            .map((x) => {
+              return x.id;
+            })
+            .indexOf(resultIssue.id);
+          this.project.kanban.inProgress.splice(inProgressIndex, 1);
+          if (result !== 'delete') {
+            this.project.kanban.inProgress.splice(
+              inProgressIndex,
+              0,
+              resultIssue
+            );
+          }
+          break;
+        case 'done':
+          let doneIndex = this.project.kanban.done
+            .map((x) => {
+              return x.id;
+            })
+            .indexOf(resultIssue.id);
+          this.project.kanban.done.splice(doneIndex, 1);
+          if (result !== 'delete') {
+            this.project.kanban.done.splice(doneIndex, 0, resultIssue);
+          }
+          break;
+        default:
+          break;
+      }
+      this.firestoreService.updateProject(this.project, this.userId);
+    }
+  }
+  deleteDoneIssueClicked(item: Issue) {
+    this.editIssue('delete', item, 'done');
   }
 }
