@@ -81,6 +81,11 @@ export class KanbanComponent implements OnInit {
         this.firestoreService
           .getProject(this.projectId, user.uid)
           .subscribe((projectData) => {
+            console.log(
+              '🚀 ~ file: kanban.component.ts ~ line 95 ~ KanbanComponent ~ .subscribe ~ projectData',
+              projectData
+            );
+
             if (projectData) {
               this.backlog = projectData.kanban.backlog;
               this.todo = projectData.kanban.todo;
