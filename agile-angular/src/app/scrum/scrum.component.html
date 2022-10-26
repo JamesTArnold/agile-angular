@@ -1,1 +1,42 @@
-<p>scrum works!</p>
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <span>{{ project.name }}</span>
+    <span class="toolbar-button-padding">
+      <button mat-stroked-button>CREATE SPRINT</button>
+    </span>
+
+    <span class="toolbar-spacer"></span>
+    <button mat-stroked-button routerLink="/projects">PROJECTS</button>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<div class="scrum-container">
+  <h2>Sprint</h2>
+
+  <div
+    cdkDropList
+    #todoList="cdkDropList"
+    [cdkDropListData]="todo"
+    [cdkDropListConnectedTo]="[doneList]"
+    class="example-list"
+    (cdkDropListDropped)="drop($event)"
+  >
+    <div class="example-box" *ngFor="let item of todo" cdkDrag>{{ item }}</div>
+  </div>
+</div>
+
+<div class="scrum-container">
+  <h2>Backlog</h2>
+
+  <div
+    cdkDropList
+    #doneList="cdkDropList"
+    [cdkDropListData]="done"
+    [cdkDropListConnectedTo]="[todoList]"
+    class="example-list"
+    (cdkDropListDropped)="drop($event)"
+  >
+    <div class="example-box" *ngFor="let item of done" cdkDrag>{{ item }}</div>
+  </div>
+</div>
+<pre>{{ project | json }}</pre>
