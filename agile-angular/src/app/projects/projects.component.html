@@ -1,16 +1,21 @@
 <mat-toolbar color="primary">
   <mat-toolbar-row>
     <span>Projects</span>
+    <span class="toolbar-button-padding">
+      <button mat-stroked-button (click)="addProject()">NEW PROJECT</button>
+    </span>
     <span class="toolbar-spacer"></span>
-    <button mat-raised-button (click)="addProject()" color="accent">NEW</button>
   </mat-toolbar-row>
 </mat-toolbar>
 
-  <div class="grid-container">
-    <mat-nav-list *ngIf="projects$ | async as projects">
-
-      <a *ngFor="let project of projects" mat-list-item (click)="gotoProject(project)"> {{project.name}} </a>
-    </mat-nav-list>
-
-
-  </div>
+<div class="grid-container">
+  <mat-nav-list *ngIf="projects$ | async as projects">
+    <a
+      *ngFor="let project of projects"
+      mat-list-item
+      (click)="gotoProject(project)"
+    >
+      {{ project.name }}
+    </a>
+  </mat-nav-list>
+</div>

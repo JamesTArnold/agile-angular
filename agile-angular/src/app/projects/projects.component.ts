@@ -23,11 +23,11 @@ export class ProjectsComponent implements OnInit {
       todo: [],
       inProgress: [],
       done: [],
-    } ,
+    },
     scrum: {
       sprints: [],
       backlog: [],
-    }
+    },
   };
 
   userId: string = '';

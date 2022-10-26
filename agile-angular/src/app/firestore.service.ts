@@ -69,23 +69,4 @@ export class FirestoreService {
       console.log('User not logged in');
     }
   }
-
-  //   addKanbanIssue(issue: issue, projectId: string, userId: string) {
-  //     let userProjectRef = this.afs
-  //       .collection('users')
-  //       .doc(userId)
-  //       .collection('projects')
-  //       .doc(projectId);
-
-  //     userProjectRef.update({
-  //       kanban: {
-  //         backlog: [
-  //           ...issue,
-  //           id:
-  //         ],
-  //       },
-  //     });
-  //   }
-
-  // }
 }

@@ -4,7 +4,9 @@
     <span class="toolbar-button-spacer">
       <button mat-stroked-button (click)="addIssue()">CREATE ISSUE</button>
     </span>
+
     <span class="toolbar-spacer"></span>
+    <button mat-stroked-button routerLink="/projects">PROJECTS</button>
   </mat-toolbar-row>
 </mat-toolbar>
 
@@ -28,7 +30,7 @@
           matTooltipPosition="after"
           cdkDrag
         >
-          {{ item.name | truncate: 40 }}
+          {{ item.name | truncate: 36 }}
           <ng-container [ngSwitch]="item.priority">
             <mat-icon *ngSwitchCase="'HIGH'" size="16px" color="warn">
               keyboard_double_arrow_up
@@ -64,7 +66,7 @@
           matTooltipPosition="after"
           cdkDrag
         >
-          {{ item.name | truncate: 40 }}
+          {{ item.name | truncate: 36 }}
           <ng-container [ngSwitch]="item.priority">
             <mat-icon *ngSwitchCase="'HIGH'" size="16px" color="warn">
               keyboard_double_arrow_up
@@ -100,7 +102,7 @@
           matTooltipPosition="after"
           cdkDrag
         >
-          {{ item.name | truncate: 40 }}
+          {{ item.name | truncate: 36 }}
           <ng-container [ngSwitch]="item.priority">
             <mat-icon *ngSwitchCase="'HIGH'" size="16px" color="warn">
               keyboard_double_arrow_up
