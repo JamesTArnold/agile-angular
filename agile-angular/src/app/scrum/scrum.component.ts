@@ -10,6 +10,7 @@ import { FirestoreService } from '../firestore.service';
 import { Observable } from 'rxjs';
 import { Project, Issue, Sprint } from '../project.interface';
 import { MatDialog } from '@angular/material/dialog';
+import { IssueFormComponent } from '../issue-form/issue-form.component';
 
 @Component({
   selector: 'app-scrum',
@@ -21,7 +22,7 @@ export class ScrumComponent implements OnInit {
   userId: string | undefined = undefined;
 
   backlog: Issue[] = [];
-  sprint: Sprint[] = [];
+  sprints: Sprint[] = [];
 
   project$: Observable<Project> = new Observable();
 
@@ -40,10 +41,6 @@ export class ScrumComponent implements OnInit {
       backlog: [],
     },
   };
-
-  todo = ['Get to work', 'Pick up groceries', 'Go home', 'Fall asleep'];
-
-  done = ['Get up', 'Brush teeth', 'Take a shower', 'Check e-mail', 'Walk dog'];
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -67,14 +64,14 @@ export class ScrumComponent implements OnInit {
             if (projectData) {
               this.project = projectData;
               this.backlog = projectData.scrum.backlog;
-              this.sprint = projectData.scrum.sprint;
+              this.sprints = projectData.scrum.sprints;
             }
           });
       }
     });
   }
 
-  drop(event: CdkDragDrop<string[]>) {
+  drop(event: CdkDragDrop<Issue[]>) {
     if (event.previousContainer === event.container) {
       moveItemInArray(
         event.container.data,
@@ -88,6 +85,66 @@ export class ScrumComponent implements OnInit {
         event.previousIndex,
         event.currentIndex
       );
+    }
+  }
+
+  addSprintId() {}
+
+  addIssue() {
+    const dialogRef = this.dialog.open(IssueFormComponent, {
+      width: '250px',
+      disableClose: true,
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result !== 'cancel') {
+        let issue = {
+          id: result.id,
+          name: result.name,
+          description: result.description,
+          priority: result.priority,
+        };
+        this.project.scrum.backlog.push(issue);
+        this.firestoreService.updateProject(this.project, this.userId);
+      }
+    });
+  }
+
+  editIssueClicked(issue: Issue, fromColumn: string) {
+    const dialogRef = this.dialog.open(IssueFormComponent, {
+      width: '250px',
+      disableClose: true,
+      data: issue,
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      this.editIssue(result, issue, fromColumn);
+    });
+  }
+
+  private editIssue(result: any, issue: Issue, fromColumn: string) {
+    if (result !== 'cancel') {
+      let resultIssue = {
+        id: result.id ? result.id : issue.id,
+        name: result.name ? result.name : issue.name,
+        description: result.description
+          ? result.description
+          : issue.description,
+        priority: result.priority ? result.priority : issue.priority,
+      };
+
+      if (fromColumn === 'backlog') {
+        let backlogIndex = this.project.scrum.backlog
+          .map((x) => {
+            return x.id;
+          })
+          .indexOf(resultIssue.id);
+
+        this.project.scrum.backlog.splice(backlogIndex, 1);
+
+        if (result !== 'delete') {
+          this.project.scrum.backlog.splice(backlogIndex, 0, resultIssue);
+        }
+      } else {
+      }
     }
   }
 }
