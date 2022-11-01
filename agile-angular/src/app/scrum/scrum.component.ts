@@ -11,6 +11,7 @@ import { Observable } from 'rxjs';
 import { Project, Issue, Sprint } from '../project.interface';
 import { MatDialog } from '@angular/material/dialog';
 import { IssueFormComponent } from '../issue-form/issue-form.component';
+import { SprintFormComponent } from './sprint-form/sprint-form.component';
 
 @Component({
   selector: 'app-scrum',
@@ -88,7 +89,15 @@ export class ScrumComponent implements OnInit {
     }
   }
 
-  addSprintId() {}
+  addSprint() {
+        const dialogRef = this.dialog.open(SprintFormComponent, {
+          width: '250px',
+          disableClose: true,
+        });
+    dialogRef.afterClosed().subscribe((result) => {
+
+    });
+  }
 
   addIssue() {
     const dialogRef = this.dialog.open(IssueFormComponent, {

@@ -33,6 +33,7 @@ import { KanbanComponent } from './kanban/kanban.component';
 import { IssueFormComponent } from './issue-form/issue-form.component';
 import { TruncatePipe } from './truncate.pipe';
 import { ScrumComponent } from './scrum/scrum.component';
+import { SprintFormComponent } from './scrum/sprint-form/sprint-form.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { ScrumComponent } from './scrum/scrum.component';
     IssueFormComponent,
     TruncatePipe,
     ScrumComponent,
+    SprintFormComponent,
   ],
   imports: [
     BrowserModule,

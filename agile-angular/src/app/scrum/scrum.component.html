@@ -2,7 +2,7 @@
   <mat-toolbar-row>
     <span>{{ project.name }}</span>
     <span class="toolbar-button-padding">
-      <button mat-stroked-button>NEW SPRINT</button>
+      <button mat-stroked-button (click)="addSprint()">NEW SPRINT</button>
     </span>
 
     <span class="toolbar-button-padding">
