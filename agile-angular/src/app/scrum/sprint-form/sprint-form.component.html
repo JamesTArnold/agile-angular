@@ -1,1 +1,79 @@
-<p>sprint-form works!</p>
+<h2 mat-dialog-title>
+  {{ this.data ? "Edit Sprint" : "Create New Sprint" }}
+  <span *ngIf="this.data" class="more-button">
+    <button
+      tabindex="-1"
+      mat-icon-button
+      [matMenuTriggerFor]="menu"
+      aria-label="icon-button with a menu"
+    >
+      <mat-icon>more_vert</mat-icon>
+    </button>
+  </span>
+  <mat-menu #menu="matMenu">
+    <button (click)="onDelete()" mat-menu-item>
+      <mat-icon>delete</mat-icon>
+      <span>DELETE</span>
+    </button>
+  </mat-menu>
+</h2>
+<form [formGroup]="sprintForm" (ngSubmit)="onSubmit()">
+  <mat-dialog-content>
+    <mat-form-field>
+      <mat-label for="name">Sprint Name</mat-label>
+      <input
+        id="sprintName"
+        matInput
+        aria-label="Sprint name"
+        minlength="4"
+        formControlName="name"
+        autocomplete="off"
+      />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label for="name">Sprint Goal</mat-label>
+      <textarea
+        id="sprintGoal"
+        matInput
+        aria-label="sprint goal"
+        minlength="4"
+        formControlName="sprintGoal"
+      ></textarea>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Date range for sprint</mat-label>
+      <mat-date-range-input [formGroup]="sprintForm" [rangePicker]="picker">
+        <input
+          matStartDate
+          formControlName="startDate"
+          placeholder="Start date"
+        />
+        <input matEndDate formControlName="endDate" placeholder="End date" />
+      </mat-date-range-input>
+      <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-date-range-picker #picker></mat-date-range-picker>
+      <!--
+      <mat-error *ngIf="range.controls.start.hasError('matStartDateInvalid')"
+        >Invalid start date</mat-error
+      >
+      <mat-error *ngIf="range.controls.end.hasError('matEndDateInvalid')"
+        >Invalid end date</mat-error
+      > -->
+    </mat-form-field>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button type="button" (click)="onCancel()">CANCEL</button>
+
+    <button
+      mat-raised-button
+      type="button"
+      color="accent"
+      (click)="onSubmit()"
+      [disabled]="!sprintForm.valid"
+    >
+      OK
+    </button>
+  </mat-dialog-actions>
+</form>

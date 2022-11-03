@@ -23,6 +23,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 import { ProjectsComponent } from './projects/projects.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
@@ -68,6 +70,8 @@ import { SprintFormComponent } from './scrum/sprint-form/sprint-form.component';
     MatInputModule,
     DragDropModule,
     MatTooltipModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
   ],
 
   providers: [{ provide: FIREBASE_OPTIONS, useValue: environment.firebase }],

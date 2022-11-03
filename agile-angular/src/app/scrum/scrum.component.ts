@@ -90,12 +90,30 @@ export class ScrumComponent implements OnInit {
   }
 
   addSprint() {
-        const dialogRef = this.dialog.open(SprintFormComponent, {
-          width: '250px',
-          disableClose: true,
-        });
+    const dialogRef = this.dialog.open(SprintFormComponent, {
+      width: '275px',
+      disableClose: true,
+    });
     dialogRef.afterClosed().subscribe((result) => {
+      console.log(
+        '🚀 ~ file: scrum.component.ts ~ line 98 ~ ScrumComponent ~ dialogRef.afterClosed ~ result',
+        result
+      );
 
+      // if (result !== 'cancel') {
+      //   let sprint = {
+      //     id: result.id,
+      //     name: result.name,
+      //     startDate: result.startDate,
+      //     endDate: result.endDate,
+      //     sprintGoal: result.sprintGoal,
+      //     todo: [],
+      //     inProgress: [],
+      //     done: [],
+      //   };
+      //   this.project.scrum.sprints.push(sprint);
+      //   this.firestoreService.updateProject(this.project, this.userId);
+      // }
     });
   }
 

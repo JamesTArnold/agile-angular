@@ -49,39 +49,43 @@
       </ng-container>
     </div>
   </div>
+  <ng-container *ngIf="sprints">
+    <div *ngFor="let sprint of sprints; let i = index" class="scrum-container">
+      <!-- <h2>
+        {{ sprint.name }}
+        <i>{{ sprint.startDate | date }}-{{ sprint.endDate | date }}</i>
+      </h2> -->
 
-  <div *ngFor="sprint; of: sprints; let i = index" class="scrum-container">
-    <h2>{{ sprints[i].name }}</h2>
-
-    <div
-      cdkDropList
-      [cdkDropListData]="sprints[i].todo"
-      class="example-list"
-      (cdkDropListDropped)="drop($event)"
-    >
-      <ng-container *ngFor="let item of backlog">
-        <div
-          (click)="editIssueClicked(item, 'backlog')"
-          class="scrum-box"
-          [matTooltip]="item.description"
-          matTooltipPosition="after"
-          cdkDrag
-        >
-          {{ item.name | truncate: 36 }}
-          <ng-container [ngSwitch]="item.priority">
-            <mat-icon *ngSwitchCase="'HIGH'" size="16px" color="warn">
-              keyboard_double_arrow_up
-            </mat-icon>
-            <mat-icon *ngSwitchCase="'MEDIUM'" class="medium-priority-icon">
-              density_medium
-            </mat-icon>
-            <mat-icon *ngSwitchCase="'LOW'" color="primary">
-              keyboard_double_arrow_down
-            </mat-icon>
-          </ng-container>
-        </div>
-      </ng-container>
+      <div
+        cdkDropList
+        [cdkDropListData]="sprints[i].todo"
+        class="example-list"
+        (cdkDropListDropped)="drop($event)"
+      >
+        <ng-container *ngFor="let item of backlog">
+          <div
+            (click)="editIssueClicked(item, 'backlog')"
+            class="scrum-box"
+            [matTooltip]="item.description"
+            matTooltipPosition="after"
+            cdkDrag
+          >
+            {{ item.name | truncate: 36 }}
+            <ng-container [ngSwitch]="item.priority">
+              <mat-icon *ngSwitchCase="'HIGH'" size="16px" color="warn">
+                keyboard_double_arrow_up
+              </mat-icon>
+              <mat-icon *ngSwitchCase="'MEDIUM'" class="medium-priority-icon">
+                density_medium
+              </mat-icon>
+              <mat-icon *ngSwitchCase="'LOW'" color="primary">
+                keyboard_double_arrow_down
+              </mat-icon>
+            </ng-container>
+          </div>
+        </ng-container>
+      </div>
     </div>
-  </div>
+  </ng-container>
 </div>
 <pre>{{ project | json }}</pre>
