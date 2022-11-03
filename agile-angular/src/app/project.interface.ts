@@ -18,8 +18,8 @@ export type projectType = 'SCRUM' | 'KANBAN';
 
 export interface Sprint {
   name: string;
-  startDate: Date;
-  endDate: Date;
+  startDate: any;
+  endDate: any;
   sprintGoal: string;
   id: string;
   todo: Issue[];

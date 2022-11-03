@@ -65,7 +65,10 @@ export class ScrumComponent implements OnInit {
             if (projectData) {
               this.project = projectData;
               this.backlog = projectData.scrum.backlog;
-              this.sprints = projectData.scrum.sprints;
+              this.project.scrum.sprints.forEach((sprint) => {
+                sprint.startDate = sprint.startDate.toDate();
+                sprint.endDate = sprint.endDate.toDate();
+              });
             }
           });
       }
@@ -87,6 +90,7 @@ export class ScrumComponent implements OnInit {
         event.currentIndex
       );
     }
+    this.firestoreService.updateProject(this.project, this.userId);
   }
 
   addSprint() {
@@ -95,25 +99,23 @@ export class ScrumComponent implements OnInit {
       disableClose: true,
     });
     dialogRef.afterClosed().subscribe((result) => {
-      console.log(
-        '🚀 ~ file: scrum.component.ts ~ line 98 ~ ScrumComponent ~ dialogRef.afterClosed ~ result',
-        result
-      );
+      if (result !== 'cancel') {
+        let resultProject = this.project;
+        let sprint = {
+          id: result.id,
+          name: result.name,
+          startDate: result.startDate,
+          endDate: result.endDate,
+          sprintGoal: result.sprintGoal,
+          todo: [],
+          inProgress: [],
+          done: [],
+        };
 
-      // if (result !== 'cancel') {
-      //   let sprint = {
-      //     id: result.id,
-      //     name: result.name,
-      //     startDate: result.startDate,
-      //     endDate: result.endDate,
-      //     sprintGoal: result.sprintGoal,
-      //     todo: [],
-      //     inProgress: [],
-      //     done: [],
-      //   };
-      //   this.project.scrum.sprints.push(sprint);
-      //   this.firestoreService.updateProject(this.project, this.userId);
-      // }
+        resultProject.scrum.sprints.push(sprint);
+
+        this.firestoreService.updateProject(this.project, this.userId);
+      }
     });
   }
 

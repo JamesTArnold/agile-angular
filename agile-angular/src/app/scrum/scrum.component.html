@@ -49,20 +49,29 @@
       </ng-container>
     </div>
   </div>
-  <ng-container *ngIf="sprints">
-    <div *ngFor="let sprint of sprints; let i = index" class="scrum-container">
-      <!-- <h2>
-        {{ sprint.name }}
-        <i>{{ sprint.startDate | date }}-{{ sprint.endDate | date }}</i>
-      </h2> -->
+  <ng-container *ngIf="project.scrum.sprints">
+    <div
+      *ngFor="let sprint of project.scrum.sprints; let i = index"
+      class="scrum-container"
+    >
+      <div class="sprint-header">
+        <h2>
+          {{ sprint.name }}
+        </h2>
+        <span class="sprint-date">
+          {{ sprint.startDate | date: "shortDate" }}
+          -
+          {{ sprint.endDate | date: "shortDate" }}
+        </span>
+      </div>
 
       <div
         cdkDropList
-        [cdkDropListData]="sprints[i].todo"
-        class="example-list"
+        [cdkDropListData]="sprint.todo"
+        class="scrum-list"
         (cdkDropListDropped)="drop($event)"
       >
-        <ng-container *ngFor="let item of backlog">
+        <ng-container *ngFor="let item of sprint.todo">
           <div
             (click)="editIssueClicked(item, 'backlog')"
             class="scrum-box"
