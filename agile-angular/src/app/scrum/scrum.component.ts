@@ -72,8 +72,6 @@ export class ScrumComponent implements OnInit {
               this.project.scrum.sprints.forEach((sprint) => {
                 sprint.startDate = sprint.startDate.toDate();
                 sprint.endDate = sprint.endDate.toDate();
-              });
-              this.project.scrum.sprints.forEach((sprint) => {
                 if (sprint.isActive) {
                   this.isSprintActive = true;
                   this.activeSprint = sprint;

@@ -1,10 +1,8 @@
 <mat-toolbar color="primary">
   <mat-toolbar-row>
     <div class="column-header">
-      <span>{{ project.name }}</span>
-      <span class="toolbar-button-padding">
-        <!-- <button mat-stroked-button (click)="addSprint()">NEW SPRINT</button> -->
-      </span>
+      <span>{{ project.name | titlecase }}</span>
+      <span class="toolbar-button-padding"> </span>
     </div>
     <button
       *ngIf="isSprintActive"
@@ -68,8 +66,8 @@
       class="scrum-container"
     >
       <div class="column-header">
-        <h2>
-          {{ sprint.name | truncate: 21 }}
+        <h2 class="sprint-header">
+          {{ sprint.name | truncate: 16 | titlecase }}
         </h2>
         <span class="sprint-date">
           {{ sprint.startDate | date: "shortDate" }}
@@ -77,6 +75,14 @@
           {{ sprint.endDate | date: "shortDate" }}
         </span>
         <span class="toolbar-spacer"></span>
+        <mat-icon
+          *ngIf="sprint.sprintGoal !== ''"
+          color="primary"
+          class="info-icon"
+          [matTooltip]="sprint.sprintGoal"
+          matTooltipPosition="below"
+          >info</mat-icon
+        >
         <button
           mat-icon-button
           [matMenuTriggerFor]="menu"
@@ -135,5 +141,4 @@
       </div>
     </div>
   </ng-container>
-  <pre>{{ project | json }}</pre>
 </div>

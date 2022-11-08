@@ -1,9 +1,5 @@
 import { Injectable, Optional } from '@angular/core';
-import {
-  Auth,
-  authState,
-  User,
-} from '@angular/fire/auth';
+import { Auth, authState, User } from '@angular/fire/auth';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { EMPTY, Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -26,11 +22,6 @@ export class UserService {
   ) {
     if (auth) {
       this.user$ = authState(this.auth);
-      // this.user.subscribe(user => {
-      //   this.userDetails = user;
-      //   console.log("🚀 ~ file: user.service.ts ~ line 22 ~ UserService ~ constructor ~ userDetails", this.userDetails)
-      // }
-      // );
 
       this.userDisposable = authState(this.auth)
         .pipe(
@@ -56,9 +47,7 @@ export class UserService {
         var errorCode = error.code;
         var errorMessage = error.message;
 
-
-          console.error("loginWithGoogle error:", error);
-
+        console.error('loginWithGoogle error:', error);
       });
   }
 
