@@ -22,6 +22,7 @@ export interface Sprint {
   endDate: any;
   sprintGoal: string;
   id: string;
+  isActive: boolean;
   todo: Issue[];
   inProgress: Issue[];
   done: Issue[];

@@ -1,21 +1,5 @@
 <h2 mat-dialog-title>
   {{ this.data ? "Edit Sprint" : "Create New Sprint" }}
-  <span *ngIf="this.data" class="more-button">
-    <button
-      tabindex="-1"
-      mat-icon-button
-      [matMenuTriggerFor]="menu"
-      aria-label="icon-button with a menu"
-    >
-      <mat-icon>more_vert</mat-icon>
-    </button>
-  </span>
-  <mat-menu #menu="matMenu">
-    <button (click)="onDelete()" mat-menu-item>
-      <mat-icon>delete</mat-icon>
-      <span>DELETE</span>
-    </button>
-  </mat-menu>
 </h2>
 <form [formGroup]="sprintForm" (ngSubmit)="onSubmit()">
   <mat-dialog-content>

@@ -3,13 +3,17 @@
     <div class="column-header">
       <span>{{ project.name }}</span>
       <span class="toolbar-button-padding">
-        <button mat-stroked-button (click)="addSprint()">NEW SPRINT</button>
+        <!-- <button mat-stroked-button (click)="addSprint()">NEW SPRINT</button> -->
       </span>
     </div>
-    <span class="toolbar-button-padding">
-      <button mat-stroked-button (click)="addIssue()">NEW ISSUE</button>
-    </span>
-
+    <button
+      *ngIf="isSprintActive"
+      type="button"
+      mat-stroked-button
+      (click)="routeToActiveSprint()"
+    >
+      ACTIVE SPRINT
+    </button>
     <span class="toolbar-spacer"></span>
     <button mat-stroked-button routerLink="/projects">PROJECTS</button>
   </mat-toolbar-row>
@@ -17,8 +21,16 @@
 
 <div cdkDropListGroup class="scrum-page-container">
   <div class="scrum-container">
-    <h2>Backlog</h2>
-
+    <div class="column-header">
+      <h2>Backlog</h2>
+      <span class="toolbar-spacer"></span>
+      <button type="button" mat-stroked-button (click)="addIssue()">
+        NEW ISSUE
+      </button>
+      <span class="toolbar-button-padding">
+        <button mat-stroked-button (click)="addSprint()">NEW SPRINT</button>
+      </span>
+    </div>
     <div
       cdkDropList
       class="scrum-list"
@@ -57,7 +69,7 @@
     >
       <div class="column-header">
         <h2>
-          {{ sprint.name }}
+          {{ sprint.name | truncate: 21 }}
         </h2>
         <span class="sprint-date">
           {{ sprint.startDate | date: "shortDate" }}
@@ -73,6 +85,14 @@
           <mat-icon>more_vert</mat-icon>
         </button>
         <mat-menu #menu="matMenu">
+          <button
+            *ngIf="isSprintActive === false"
+            mat-menu-item
+            (click)="startSprintClicked(sprint)"
+          >
+            <mat-icon>start</mat-icon>
+            <span>Start Sprint</span>
+          </button>
           <button mat-menu-item (click)="editSprintClicked(sprint, 'edit')">
             <mat-icon>edit</mat-icon>
             <span>Edit Sprint</span>
@@ -115,5 +135,5 @@
       </div>
     </div>
   </ng-container>
+  <pre>{{ project | json }}</pre>
 </div>
-<pre>{{ project | json }}</pre>

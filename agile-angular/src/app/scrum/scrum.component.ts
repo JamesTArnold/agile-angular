@@ -4,7 +4,7 @@ import {
   moveItemInArray,
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../user.service';
 import { FirestoreService } from '../firestore.service';
 import { Observable } from 'rxjs';
@@ -24,6 +24,9 @@ export class ScrumComponent implements OnInit {
 
   backlog: Issue[] = [];
   sprints: Sprint[] = [];
+
+  isSprintActive: boolean = false;
+  activeSprint: Sprint | undefined = undefined;
 
   project$: Observable<Project> = new Observable();
 
@@ -47,7 +50,8 @@ export class ScrumComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private userService: UserService,
     private firestoreService: FirestoreService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    public router: Router
   ) {}
 
   ngOnInit(): void {
@@ -68,6 +72,12 @@ export class ScrumComponent implements OnInit {
               this.project.scrum.sprints.forEach((sprint) => {
                 sprint.startDate = sprint.startDate.toDate();
                 sprint.endDate = sprint.endDate.toDate();
+              });
+              this.project.scrum.sprints.forEach((sprint) => {
+                if (sprint.isActive) {
+                  this.isSprintActive = true;
+                  this.activeSprint = sprint;
+                }
               });
             }
           });
@@ -93,6 +103,15 @@ export class ScrumComponent implements OnInit {
     this.firestoreService.updateProject(this.project, this.userId);
   }
 
+  routeToActiveSprint() {
+    this.router.navigate([
+      'scrum',
+      this.project.id,
+      'active',
+      this.activeSprint?.id,
+    ]);
+  }
+
   addSprint() {
     const dialogRef = this.dialog.open(SprintFormComponent, {
       width: '275px',
@@ -107,6 +126,7 @@ export class ScrumComponent implements OnInit {
           startDate: result.startDate,
           endDate: result.endDate,
           sprintGoal: result.sprintGoal,
+          isActive: false,
           todo: [],
           inProgress: [],
           done: [],
@@ -117,6 +137,20 @@ export class ScrumComponent implements OnInit {
         this.firestoreService.updateProject(this.project, this.userId);
       }
     });
+  }
+
+  startSprintClicked(sprint: Sprint) {
+    let sprintIndex = this.project.scrum.sprints
+      .map((x) => {
+        return x.id;
+      })
+      .indexOf(sprint.id);
+
+    if (sprintIndex !== -1) {
+      this.project.scrum.sprints[sprintIndex].isActive = true;
+    }
+
+    this.firestoreService.updateProject(this.project, this.userId);
   }
 
   editSprintClicked(sprint: Sprint, button: string) {
@@ -140,6 +174,7 @@ export class ScrumComponent implements OnInit {
         name: result.name ? result.name : sprint.name,
         sprintGoal: result.sprintGoal ? result.sprintGoal : sprint.sprintGoal,
         id: result.id ? result.id : sprint.id,
+        isActive: false,
         startDate: result.startDate ? result.startDate : sprint.startDate,
         endDate: result.endDate ? result.endDate : sprint.endDate,
         todo: result.todo ? result.todo : sprint.todo,
@@ -147,21 +182,19 @@ export class ScrumComponent implements OnInit {
         done: result.done ? result.done : sprint.done,
       };
 
-      this.project.scrum.sprints.forEach((sprint) => {
-        let sprintIndex = this.project.scrum.sprints
-          .map((x) => {
-            return x.id;
-          })
-          .indexOf(resultSprint.id);
+      let sprintIndex = this.project.scrum.sprints
+        .map((x) => {
+          return x.id;
+        })
+        .indexOf(resultSprint.id);
 
-        if (sprintIndex !== -1) {
-          this.project.scrum.sprints.splice(sprintIndex, 1);
+      if (sprintIndex !== -1) {
+        this.project.scrum.sprints.splice(sprintIndex, 1);
 
-          if (result !== 'delete') {
-            this.project.scrum.sprints.splice(sprintIndex, 0, resultSprint);
-          }
+        if (result !== 'delete') {
+          this.project.scrum.sprints.splice(sprintIndex, 0, resultSprint);
         }
-      });
+      }
 
       this.firestoreService.updateProject(this.project, this.userId);
     }
