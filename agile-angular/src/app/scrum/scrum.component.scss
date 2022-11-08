@@ -51,3 +51,14 @@
 .scrum-list.cdk-drop-list-dragging .scrum-box:not(.cdk-drag-placeholder) {
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }
+
+.column-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.sprint-date {
+  padding-left: 24px;
+  display: block;
+}

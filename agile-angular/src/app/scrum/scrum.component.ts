@@ -119,6 +119,54 @@ export class ScrumComponent implements OnInit {
     });
   }
 
+  editSprintClicked(sprint: Sprint, button: string) {
+    if (button === 'edit') {
+      const dialogRef = this.dialog.open(SprintFormComponent, {
+        width: '275px',
+        disableClose: true,
+        data: sprint,
+      });
+      dialogRef.afterClosed().subscribe((result) => {
+        this.editSprint(result, sprint);
+      });
+    } else if (button === 'delete') {
+      this.editSprint('delete', sprint);
+    }
+  }
+
+  private editSprint(result: any, sprint: Sprint) {
+    if (result !== 'cancel') {
+      let resultSprint: Sprint = {
+        name: result.name ? result.name : sprint.name,
+        sprintGoal: result.sprintGoal ? result.sprintGoal : sprint.sprintGoal,
+        id: result.id ? result.id : sprint.id,
+        startDate: result.startDate ? result.startDate : sprint.startDate,
+        endDate: result.endDate ? result.endDate : sprint.endDate,
+        todo: result.todo ? result.todo : sprint.todo,
+        inProgress: result.inProgress ? result.inProgress : sprint.inProgress,
+        done: result.done ? result.done : sprint.done,
+      };
+
+      this.project.scrum.sprints.forEach((sprint) => {
+        let sprintIndex = this.project.scrum.sprints
+          .map((x) => {
+            return x.id;
+          })
+          .indexOf(resultSprint.id);
+
+        if (sprintIndex !== -1) {
+          this.project.scrum.sprints.splice(sprintIndex, 1);
+
+          if (result !== 'delete') {
+            this.project.scrum.sprints.splice(sprintIndex, 0, resultSprint);
+          }
+        }
+      });
+
+      this.firestoreService.updateProject(this.project, this.userId);
+    }
+  }
+
   addIssue() {
     const dialogRef = this.dialog.open(IssueFormComponent, {
       width: '250px',
@@ -173,6 +221,21 @@ export class ScrumComponent implements OnInit {
           this.project.scrum.backlog.splice(backlogIndex, 0, resultIssue);
         }
       } else {
+        this.project.scrum.sprints.forEach((sprint) => {
+          let todoIndex = sprint.todo
+            .map((x) => {
+              return x.id;
+            })
+            .indexOf(resultIssue.id);
+
+          if (todoIndex !== -1) {
+            sprint.todo.splice(todoIndex, 1);
+
+            if (result !== 'delete') {
+              sprint.todo.splice(todoIndex, 0, resultIssue);
+            }
+          }
+        });
       }
     }
   }

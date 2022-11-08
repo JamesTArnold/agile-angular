@@ -2,7 +2,6 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Sprint } from '../../project.interface';
 
 @Component({
   selector: 'app-sprint-form',
@@ -25,13 +24,26 @@ export class SprintFormComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<SprintFormComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: Sprint | null
+    @Inject(MAT_DIALOG_DATA) public data: any | null
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    if (this.data !== null) {
+      this.sprintForm.patchValue({
+        name: this.data.name,
+        sprintGoal: this.data.sprintGoal,
+        id: this.data.id,
+        startDate: this.data.startDate,
+        endDate: this.data.endDate,
+        todo: this.data.todo,
+        inProgress: this.data.inProgress,
+        done: this.data.done,
+      });
+    }
+  }
 
   onSubmit() {
-    let sprint = this.sprintForm.value;
+    let sprint = { ...this.sprintForm.value };
     sprint.id = this.data ? this.data.id : this.CreateUUID();
     this.dialogRef.close(sprint);
   }
