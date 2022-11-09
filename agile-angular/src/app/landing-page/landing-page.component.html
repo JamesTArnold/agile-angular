@@ -1,4 +1,16 @@
-  <p>Please login.</p>
-  <button (click)="login()">Login with Google</button>
-  <button (click)="loginAnonymously()">Login Anonymously</button>
-
+<div class="page-container">
+  <div class="page-layout">
+    <div class="title">
+      <h1>
+        <mat-icon color="primary">verified_user</mat-icon>
+        Agile Angular
+      </h1>
+    </div>
+    <button color="primary" mat-raised-button (click)="login()">
+      Login with Google
+    </button>
+    <button color="primary" mat-raised-button (click)="loginAnonymously()">
+      Login Anonymously
+    </button>
+  </div>
+</div>

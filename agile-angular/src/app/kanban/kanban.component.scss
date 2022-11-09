@@ -81,3 +81,9 @@
     line-height: inherit;
   }
 }
+
+.column-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}

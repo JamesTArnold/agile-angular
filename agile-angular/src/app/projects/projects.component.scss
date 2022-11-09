@@ -1,6 +1,9 @@
+button {
+  margin: 10px;
+}
 
 .grid-container {
   display: grid;
-  grid:  auto-flow / auto;
+  grid: auto-flow / auto;
   gap: 20px;
 }

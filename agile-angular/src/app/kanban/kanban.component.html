@@ -1,9 +1,6 @@
 <mat-toolbar color="primary">
   <mat-toolbar-row>
-    <span>{{ project.name }}</span>
-    <span class="toolbar-button-padding">
-      <button mat-stroked-button (click)="addIssue()">CREATE ISSUE</button>
-    </span>
+    <span>{{ project.name | titlecase }}</span>
 
     <span class="toolbar-spacer"></span>
     <button mat-stroked-button routerLink="/projects">PROJECTS</button>
@@ -12,8 +9,11 @@
 
 <div class="kanban-page-container" *ngIf="project">
   <div class="kanban-container">
-    <h2>Backlog</h2>
-
+    <div class="column-header">
+      <h2>Backlog</h2>
+      <span class="toolbar-spacer"></span>
+      <button mat-stroked-button (click)="addIssue()">CREATE ISSUE</button>
+    </div>
     <div
       cdkDropList
       class="kanban-list"
